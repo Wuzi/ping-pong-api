@@ -41,7 +41,6 @@ class AuthController {
       return response.status(400).json(validation.messages())
 
     delete data.password_confirmation
-    data.role = 'user'
     
     await User.create(data)
     return auth.withRefreshToken().attempt(data.email, data.password)

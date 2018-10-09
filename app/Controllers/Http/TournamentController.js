@@ -2,6 +2,7 @@
 
 const Tournament = use('App/Models/Tournament')
 const { validateAll } = use('Validator')
+const Database = use('Database')
 
 /**
  * Resourceful controller for interacting with tournaments
@@ -84,6 +85,24 @@ class TournamentController {
     
     await tournament.delete()
     return response.json({ message: 'Torneio excluído com sucesso' })
+  }
+
+  /**
+   * Show the players wins count of the tournament with id.
+   * GET tournaments/:id/wins
+   */
+  async wins ({ params, response }) {
+    const data = await Database.raw('SELECT users.id, users.name, COUNT(*) AS wins FROM matches INNER JOIN users ON users.id = winner_id WHERE tournament_id = ? GROUP BY winner_id ORDER BY wins DESC', [params.id])
+    return response.json(data[0])
+  }
+
+  /**
+   * Show the players losses count of the tournament with id.
+   * GET tournaments/:id/losses
+   */
+  async losses ({ params, response }) {
+    const data = await Database.raw('SELECT users.id, users.name, COUNT(*) AS losses FROM matches INNER JOIN users ON users.id = loser_id WHERE tournament_id = ? GROUP BY loser_id ORDER BY losses DESC', [params.id])
+    return response.json(data[0])
   }
 }
 
