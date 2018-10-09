@@ -17,5 +17,20 @@
 const Route = use('Route')
 
 Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
+  return { greeting: 'PPC API Online' }
 })
+
+/**
+ * api/v1 routes
+ */
+Route.group(() => {
+  /**
+   * Auth routes
+   */
+  Route.post('login', 'AuthController.login')
+  Route.post('register', 'AuthController.register')
+  Route.post('logout', 'AuthController.logout').middleware('auth')
+  Route.post('refreshtoken', 'AuthController.refreshToken').middleware('auth')
+  
+  Route.get('user', 'AuthController.getAuthenticatedUser').middleware('auth')
+}).prefix('api/v1')
