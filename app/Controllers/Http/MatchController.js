@@ -40,6 +40,13 @@ class MatchController {
     if (validation.fails())
       return response.status(400).json(validation.messages())
     
+    /**
+     * TO DO
+     * 
+     * Verificar se o torneio já acabou pelo campo ended_at
+     * Caso o torneio já estiver terminado não permitir inserir
+     * novos resultados
+     */
     const match = await Match.create(data)
     return response.status(201).json(match)
   }
