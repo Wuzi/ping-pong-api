@@ -104,6 +104,18 @@ class TournamentController {
     const data = await Database.raw('SELECT users.id, users.name, COUNT(*) AS losses FROM matches INNER JOIN users ON users.id = loser_id WHERE tournament_id = ? GROUP BY loser_id ORDER BY losses DESC', [params.id])
     return response.json(data[0])
   }
+
+  /**
+   * Show the winner of the last tournament.
+   * GET tournaments/lastwinner
+   */
+  async lastWinner ({ response }) {
+    const tournament = await Tournament.query().orderBy('id', 'DESC').first()
+    if (!tournament) return response.status(404).json({ message: `Nenhum torneio cadastrado.`})
+
+    const data = await Database.raw('SELECT users.id, users.name, COUNT(*) AS wins FROM matches INNER JOIN users ON users.id = winner_id WHERE tournament_id = ? GROUP BY winner_id ORDER BY wins DESC LIMIT 1', [tournament.id])
+    return response.json(data[0][0])
+  }
 }
 
 module.exports = TournamentController

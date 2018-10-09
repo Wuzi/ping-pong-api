@@ -27,6 +27,7 @@ Route.group(() => {
   /**
    * Tournament routes
    */
+  Route.get('tournaments/lastWinner', 'TournamentController.lastWinner').middleware('auth')
   Route.get('tournaments/:id/wins', 'TournamentController.wins').middleware('auth')
   Route.get('tournaments/:id/losses', 'TournamentController.losses').middleware('auth')
   Route.resource('tournaments', 'TournamentController').apiOnly().middleware('auth')
