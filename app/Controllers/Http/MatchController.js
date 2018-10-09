@@ -56,7 +56,7 @@ class MatchController {
    * GET matches/:id
    */
   async show ({ params, response }) {
-    const match = await Match.find(params.id)
+    const match = await Match.query().with('winner').with('loser').where('id', params.id).fetch()
     if (!match) return response.status(404).json({ message: `Partida com id ${params.id} não encontrada`})
     return response.json(match)
   }
