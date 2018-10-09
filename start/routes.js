@@ -30,6 +30,11 @@ Route.group(() => {
   Route.resource('tournaments', 'TournamentController').apiOnly().middleware('auth')
 
   /**
+   * Match routes
+   */
+  Route.resource('matches', 'MatchController').apiOnly().middleware('auth')
+
+  /**
    * Auth routes
    */
   Route.post('login', 'AuthController.login')
