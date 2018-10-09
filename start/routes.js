@@ -25,6 +25,11 @@ Route.get('/', () => {
  */
 Route.group(() => {
   /**
+   * Tournament routes
+   */
+  Route.resource('tournaments', 'TournamentController').apiOnly().middleware('auth')
+
+  /**
    * Auth routes
    */
   Route.post('login', 'AuthController.login')
